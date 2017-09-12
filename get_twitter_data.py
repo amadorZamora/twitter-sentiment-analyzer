@@ -23,12 +23,12 @@ class TwitterData:
     #end
 
     #start getWeeksData
-    def getTwitterData(self, keyword, time):
+    def getTwitterData(self, keyword, time, language):
         self.weekTweets = {}
         if(time == 'lastweek'):
             for i in range(0,6):
                 params = {'since': self.weekDates[i+1], 'until': self.weekDates[i]}
-                self.weekTweets[i] = self.getData(keyword, params)
+                self.weekTweets[i] = self.getData(keyword, params, language)
             #end loop
             
             #Write data to a pickle file
@@ -39,7 +39,7 @@ class TwitterData:
         elif(time == 'today'):
             for i in range(0,1):
                 params = {'since': self.weekDates[i+1], 'until': self.weekDates[i]}
-                self.weekTweets[i] = self.getData(keyword, params)
+                self.weekTweets[i] = self.getData(keyword, language, params)
             #end loop
         return self.weekTweets
     '''
@@ -95,10 +95,10 @@ class TwitterData:
       return content
     
     #start getTwitterData
-    def getData(self, keyword, params = {}):
+    def getData(self, keyword,language, params = {}):
         maxTweets = 50
         url = 'https://api.twitter.com/1.1/search/tweets.json?'    
-        data = {'q': keyword, 'lang': 'en', 'result_type': 'recent', 'count': maxTweets, 'include_entities': 0}
+        data = {'q': keyword, 'lang': language, 'result_type': 'recent', 'count': maxTweets, 'include_entities': 0}
 
         #Add if additional params are passed
         if params:
